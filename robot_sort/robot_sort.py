@@ -92,40 +92,66 @@ class SortingRobot:
         """
         return self._light == "ON"
 
-    def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Fill this out
+    # def sort(self):
+    #     """
+    #     Sort the robot's list.
+    #     """
+    #     # Fill this out
+
+    #     ## FIRST PASS, BUBBLE SORT
         
-        # Light on robot's head means we want to keep track of some boolean.  Bubble sort keeps track of a 'swapped' boolean to determine if it can exit the main loop, so going to try and implement that.
+    #     # Light on robot's head means we want to keep track of some boolean.  Bubble sort keeps track of a 'swapped' boolean to determine if it can exit the main loop, so going to try and implement that.
 
-        self.set_light_on()
-        while self.light_is_on():
-            self.set_light_off()
+    #     self.set_light_on()
+    #     while self.light_is_on():
+    #         self.set_light_off()
 
-        # We don't have access to the length of the input, and can't access any properties on the robot instance.  Only way to loop through the list is going to use the "can_move_right" function.  This will iterate through each item and end with the robot at the end of the list.
+    #     # We don't have access to the length of the input, and can't access any properties on the robot instance.  Only way to loop through the list is going to use the "can_move_right" function.  This will iterate through each item and end with the robot at the end of the list.
 
+    #         while self.can_move_right():
+    #             # pick up item in front of you
+    #             self.swap_item()
+    #             # move to next spot in list
+    #             self.move_right()
+    #             # if we're holding a bigger value, swap and move smaller item back an index.  Turn light on to indicate swap has been made
+    #             if self.compare_item() == 1:
+    #                 self.swap_item()
+    #                 self.set_light_on()
+    #                 self.move_left()
+    #                 self.swap_item()
+    #             else:
+    #                 self.move_left()
+    #                 self.swap_item()
+    #             self.move_right()
+            
+    #         # now we're at end of array with the largest number in the correct spot.  Lets move back to beginning
+
+    #         while self.can_move_left():
+    #             self.move_left()
+    
+    def sort(self):
+
+        # SECOND PASS
+
+        # Going to try something like a reverse bubble sort where robot picks up first element, finds the smallest element in list and returns that smallest to the open position.  Shoudl be faster as it doesn't require the light, and also doesn't have to traverse the entire array each pass.
+
+        while self.can_move_right():
+            self.swap_item()
             while self.can_move_right():
-                # pick up item in front of you
-                self.swap_item()
-                # move to next spot in list
                 self.move_right()
-                # if we're holding a bigger value, swap and move smaller item back an index.  Turn light on to indicate swap has been made
                 if self.compare_item() == 1:
                     self.swap_item()
-                    self.set_light_on()
-                    self.move_left()
-                    self.swap_item()
-                else:
-                    self.move_left()
-                    self.swap_item()
-                self.move_right()
-            
-            # now we're at end of array with the largest number in the correct spot.  Lets move back to beginning
-
-            while self.can_move_left():
+            # should be at end of list holding smallest number
+            while self.compare_item() != None:
                 self.move_left()
+            self.swap_item()
+            self.move_right()
+
+        
+        # This ends up working and passes the time tests, althought I'm not sure what type of sort it's performing.  Definitely O(n^2) with the nested loops.
+
+            
+
 
 
 
