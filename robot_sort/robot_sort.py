@@ -97,7 +97,36 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        
+        # Light on robot's head means we want to keep track of some boolean.  Bubble sort keeps track of a 'swapped' boolean to determine if it can exit the main loop, so going to try and implement that.
+
+        self.set_light_on()
+        while self.light_is_on():
+            self.set_light_off()
+
+        # We don't have access to the length of the input, and can't access any properties on the robot instance.  Only way to loop through the list is going to use the "can_move_right" function.  This will iterate through each item and end with the robot at the end of the list.
+
+            while self.can_move_right():
+                # pick up item in front of you
+                self.swap_item()
+                # move to next spot in list
+                self.move_right()
+                # if we're holding a bigger value, swap and move smaller item back an index.  Turn light on to indicate swap has been made
+                if self.compare_item() == 1:
+                    self.swap_item()
+                    self.set_light_on()
+                    self.move_left()
+                    self.swap_item()
+                else:
+                    self.move_left()
+                    self.swap_item()
+                self.move_right()
+            
+            # now we're at end of array with the largest number in the correct spot.  Lets move back to beginning
+
+            while self.can_move_left():
+                self.move_left()
+
 
 
 if __name__ == "__main__":
@@ -105,6 +134,7 @@ if __name__ == "__main__":
     # with `python robot_sort.py`
 
     l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+
 
     robot = SortingRobot(l)
 
